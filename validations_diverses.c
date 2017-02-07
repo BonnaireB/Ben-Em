@@ -13,7 +13,7 @@ void validerCodePerm(const char* codePerm);
 //valider que notre array de notes recu est dans les limites
 void validerValeursPermises(char *notesPermises, const char *notes);
 //remplissage des tableaux des pondeérations et des notes max
-void remplissage ( double tableaux[],int taille, FILE *fichier);
+void remplissage ( int tableaux[],int taille);
 
 
 
@@ -21,30 +21,31 @@ void remplissage ( double tableaux[],int taille, FILE *fichier);
 int main(int argc, char *argv[]){
     
     int nombreEval ;
-    int seuils[11];
-    char charPourInt;
+    double seuils[11];
     int iterateur;
+    char leCar[5];
     
     if (argc != 12) {
         fprintf(stderr, "Le nombre d'arguments n'est pas valide.\n");
         exit(EXIT_FAILURE);
     }
     
-    FILE *fichierEntree = stdin;
     
     for (iterateur=1 ; iterateur< argc ;  ++iterateur) {
-        seuils[iterateur-1] = atoi(argv[iterateur]);
+        seuils[iterateur-1] = strtold(argv[iterateur],NULL);
+        printf ("%.2f\n",seuils[iterateur-1]);
     }
-    charPourInt = fgetc(fichierEntree);
-    nombreEval = atoi(&charPourInt);
+    scanf("%s",leCar);
+    nombreEval = (int)strtol(leCar,NULL,10);
+    printf("%d\n",nombreEval);
     
-    double ponderation [nombreEval];
-    double noteMax[nombreEval];
-    remplissage (ponderation, nombreEval, fichierEntree);
-    remplissage (noteMax,nombreEval,fichierEntree);
+    int ponderation [nombreEval];
+    int noteMax[nombreEval];
+    remplissage (ponderation, nombreEval);
+    remplissage (noteMax,nombreEval);
 
     char codePerm[12];
-    fscanf(fichierEntree,"%s",codePerm);
+    scanf("%s",codePerm);
      validerCodePerm(codePerm);
     
     
@@ -53,13 +54,15 @@ int main(int argc, char *argv[]){
 }
 
 
-void remplissage ( double tableaux[],int taille, FILE *fichier){
+void remplissage (int tableaux[],int taille){
     char charLu[10];
     int i;
     for (i= 0; i < taille; ++i) {
-        fscanf(fichier,"%s",charLu);
-        tableaux[i] = atof(charLu);
+        scanf("%s",charLu);
+        tableaux[i] = strtol(charLu,NULL,10);
+        printf("%d ",tableaux[i]);
     }
+    printf("\n");
     
 }
 
